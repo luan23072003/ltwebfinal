@@ -1,0 +1,150 @@
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    /*main {
+        display: flex;
+        justify-content: space-between;*/ /* Các thành phần sẽ được căn cách nhau ở hai đầu của container */
+    /*}
+
+    .product-list, .menu {
+        width: 48%;*/ /* Đặt chiều rộng của mỗi div */
+    /*border: 1px solid #ddd;
+        padding: 10px;
+    }*/ /*main và product-list và meniu dùng cho giao diện đứng*/
+    h4 {
+        text-align: center;
+    }
+
+    #menu ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333; /* You can change the background color as needed */
+        text-align: left; /* căn trái */
+        /*text-align : center*/ /*cẳn giữa*/
+    }
+
+        #menu ul li {
+            display: inline-block;
+            Display menu items horizontally
+        }
+
+            #menu ul li a {
+                display: block;
+                color: white;
+                text-align: left;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                #menu ul li a:hover {
+                    background-color: #ddd; /* Change the background color on hover if desired */
+                    color: red;
+                }
+
+    #product-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .product-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .product-item {
+        width: calc(25% - 10px); /* 25% width for each item with 10px gap between items */
+        box-sizing: border-box;
+    }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd; /* Optional: add a border around each image */
+            border-radius: 5px; /* Optional: add border-radius for rounded corners */
+        }
+
+    #loading-indicator {
+        display: none;
+        text-align: center;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+    }
+
+    /* set sup cùng kích thước hình ảnh*/
+    .product-item img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+        height: 200; /* Đặt chiều cao mong muốn */
+        object-fit: contain; /* Giữ tỷ lệ khung hình và hiển thị toàn bộ ảnh trong container */
+    }
+
+    }
+
+</style>
+@model List<wwââ.Models.PhanLoai>
+<main>
+    <h2>New Arrivals</h2>
+    <h5>Nguyễn Thành Luân</h5>
+
+
+    <button><a href="~/Home/Create">Thêm sản phẩm mới</a></button>
+    <div id="menu">
+        <ul>
+            <li><a class="nav-link subcategory-link" href="#" data-category-id="all" onclick="handleClick('all')">Tất cả sản phẩm</a></li>
+            @foreach (var phanLoai in Model)
+            {
+                <li>
+                    <a class="nav-link subcategory-link" href="#" data-category-id="@phanLoai.MaPhanLoai" onclick="handleClick('@phanLoai.MaPhanLoai')">
+                        <strong>@phanLoai.PhanLoaiChinh</strong>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div id="product-list">
+        @foreach (var phanLoai in Model)
+        {
+            <div class="product-items">
+                @foreach (var sanPham in phanLoai.SanPhams)
+                {
+                    <div class="product-item category-@phanLoai.MaPhanLoai" data-product-id="@sanPham.MaPhanLoai">
+                        <h4>@sanPham.TenSanPham</h4>
+                        <a href="/Home/Details/@sanPham.MaSanPham"><img id="trow_@sanPham.MaSanPham" src="~/Content/@sanPham.AnhDaiDien" alt="@sanPham.TenSanPham" /> </a>
+                        <a href="/Home/Edit/@sanPham.MaSanPham"><button id="trow_@sanPham.MaSanPham">Sửa</button></a>
+
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    @section scripts {
+        <script>
+            // Hàm xử lý sự kiện khi người dùng chọn một phân loại
+            function handleClick(categoryId) {
+                if (categoryId === 'all') {
+                    // Nếu chọn "Tất cả sản phẩm", hiển thị tất cả sản phẩm
+                    $('.product-item').show();
+                } else {
+                    // Nếu chọn một phân loại cụ thể, ẩn tất cả sản phẩm
+                    $('.product-item').hide();
+
+                    // Hiển thị sản phẩm thuộc phân loại được chọn
+                    $('.category-' + categoryId).show();
+                }
+            }
+        </script>
+    }
+
+
+
+</main>
