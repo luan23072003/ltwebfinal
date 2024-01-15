@@ -1,0 +1,17 @@
+﻿@model IEnumerable<De_8.Models.SanPham>
+
+        @foreach (var p in Model)
+        {
+            <!-- Single Catagory -->
+                    <div class="single-products-catagory clearfix">
+                        <a href="~/Home/Delete/@p.MaSanPham">
+                            <img src="~/Content/img/product-img/@p.AnhDaiDien" alt="">
+                            <!-- Hover Content -->
+                            <div class="hover-content">
+                                <div class="line"></div>
+                                <p>@p.DonGiaBanNhoNhat đ</p>
+                                <h4>@p.TenSanPham</h4>
+                            </div>
+                        </a>
+                    </div>
+         }
